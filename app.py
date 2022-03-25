@@ -4,30 +4,29 @@ author - Jesus Pombo
 description - Stock count page.
 """
 
-from flask import Flask, render_template, request, make_response, jsonify
+from flask import Flask, render_template, request, make_response, jsonify, send_file
+import json
 
 app = Flask(__name__)
 
 
+# @app.route('/')
+# def stock_count_page():
+#     """
+#     function stock_count_page() - This function is used to render the original page the warehouse operative will see,
+#     with empty data fields.
+#     """
+#     return render_template('index.html')
+
+
 @app.route('/')
-def stock_count_page():
-    """
-    function stock_count_page() - This function is used to render the original page the warehouse operative will see,
-    with empty data fields.
-    """
-    return render_template('index.html')
+def inventory_read():
 
-
-def user_allocation():
-    """
-    function user_allocation() - This function is used to grab the username entered, and then initialise all of the
-    blank variables to be filled in.
-    """
-    username = ""
-
-
-def inventory():
-    name = 0
+    with open('data/inventory.json', 'r') as file:
+        data = file.read()
+        json_data = json.loads(data)
+        file.close()
+        return json_data
 
 
 if __name__ == '__main__':
