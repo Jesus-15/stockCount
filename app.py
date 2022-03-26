@@ -33,16 +33,19 @@ def inventory_read():
 def add_to_inventory():
     if request.method == "GET":
         position = int(request.args.get('number'))
+        count = int(request.args.get('count'))
 
         with open('data/inventory.json', 'r') as file:
-            data = file.read()
-            json_data = json.loads(data)
-            current = json_data['inventory'][position-1]
-            item_data["count"] = author_to_delete
+            json_data = json.load(file)
+            item_to_change = json_data['inventory'][position-1]
+            item_to_change['count'] = count
             file.close()
 
-    # return json_data['inventory'][position]
-    return current["count"]
+        with open('data/inventory.json', 'w') as file:
+            json.dump(json_data, file)
+            file.close()
+
+    return json_data
 
 if __name__ == '__main__':
     app.run()
