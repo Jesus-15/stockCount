@@ -35,6 +35,7 @@ def add_to_inventory():
         position = int(request.args.get('number'))
         count = int(request.args.get('count'))
 
+        # add count to file
         with open('data/inventory.json', 'r') as file:
             json_data = json.load(file)
             item_to_change = json_data['inventory'][position-1]
@@ -45,6 +46,10 @@ def add_to_inventory():
             json.dump(json_data, file)
             file.close()
 
+    # return restricted inventory
+    with open('data/inventoryRestricted.json', 'r') as file:
+        json_data = json.load(file)
+        file.close()
     return json_data
 
 if __name__ == '__main__':
