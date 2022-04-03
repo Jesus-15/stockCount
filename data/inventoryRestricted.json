@@ -1,4 +1,1 @@
-{"inventory": [{"sku": "0001", "description": "Apple", "location": "1A"},
-  {"sku": "0002", "description": "Banana", "location": "2A"},
-{"sku": "0003", "description": "Pear", "location": "3A"},
-{"sku": "0004", "description": "Orange", "location": "4A"}]}
+{"inventory": [{"sku": "0001", "description": "Apple", "location": "1A", "count": ""}, {"sku": "0002", "description": "Banana", "location": "2A", "count": ""},{"sku": "0003", "description": "Pear", "location": "3A", "count": ""}, {"sku": "0004", "description": "Orange", "location": "4A", "count": ""}]}
