@@ -66,7 +66,7 @@ def delete_from_inventory():
 
         with open(filename2, "w") as f:
             json.dump(data2, f)
-    return "test"
+    return data
 
 
 @app.route('/api/add', methods=['GET', 'PUT'])
@@ -77,16 +77,28 @@ def add_count_to_inventory():
         count = str(request.args.get('count'))
 
         filename = "data/inventoryRestricted.json"
+        filename2 = "data/inventory.json"
 
         with open(filename, "r") as f:
             data = json.load(f)
 
+        with open(filename2, "r") as f2:
+            data2 = json.load(f2)
+
         # position of item to change
         current = 0
+        test = 0
 
         # delete item from inventoryRestricted if match found
         for i in data['inventory']:
             if i['sku'] == sku:
+                data2['inventory'].append(data['inventory'][current])
+                # print(data['inventory'][current])
+                test += 1
+            current += 1
+        current = 0
+        for j in data['inventory']:
+            if j['sku'] == sku:
                 del data['inventory'][current]
             current += 1
 
@@ -94,15 +106,8 @@ def add_count_to_inventory():
         with open(filename, "w") as f:
             json.dump(data, f)
 
-
-        filename2 = "data/inventory.json"
-
-        with open(filename2, "r") as f2:
-            data2 = json.load(f2)
-
         current = 0
 
-        # change count if match found
         for i in data2['inventory']:
             if i['sku'] == sku:
                 data2['inventory'][current]['count'] = count
@@ -110,7 +115,39 @@ def add_count_to_inventory():
 
         with open(filename2, "w") as f:
             json.dump(data2, f)
-    return "test"
+    return data
+
+
+@app.route('/api/add_item', methods=['GET', 'PUT'])
+def add_item_to_inventory_restricted():
+    if request.method == "GET":
+        # get item details from url
+        sku = str(request.args.get('sku'))
+        description = str(request.args.get('description'))
+        location = str(request.args.get('location'))
+
+        unique = True
+
+        filename = "data/inventoryRestricted.json"
+
+        with open(filename, "r+") as f:
+            data = json.load(f)
+
+        inventory = data['inventory']
+        new_item = {'sku': sku, 'description': description, 'location': location, 'count': ""}
+
+        for i in data['inventory']:
+            if i['sku'] == sku:
+                unique = False
+
+        if unique:
+            inventory.append(new_item)
+
+        with open(filename, 'w') as f:
+            json.dump(data, f)
+
+        return data
+
 
 if __name__ == '__main__':
     app.run()
